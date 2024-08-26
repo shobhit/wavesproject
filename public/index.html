@@ -1,43 +1,529 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Image Display on Canvas with Smooth Axis Rotation in Three.js</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    // Create a scene
+    const scene = new THREE.Scene();
+
+    // Create a camera
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    // Create a renderer
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas') });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Load the image texture
+    const loader = new THREE.TextureLoader();
+    loader.load('https://fastly.picsum.photos/id/1047/200/300.jpg?hmac=qKpI7C3-gy7En06KAzy2pm7dQAJncqoXDDZxLomHAGY', function (texture) {
+      // Create a plane geometry
+      const geometry = new THREE.PlaneGeometry(4, 5);
+
+      // Create a material with the image texture
+      const material = new THREE.MeshPhongMaterial({ map: texture });
+
+      // Create a mesh using the geometry and material
+      const plane = new THREE.Mesh(geometry, material);
+      scene.add(plane);
+
+      // Create lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(1, 1, 1);
+      scene.add(directionalLight);
+
+      // Variables for rotation
+      let currentRotationAxis = 'x';
+      let targetRotationAxis = 'y';
+      let rotationAmount = 0;
+      const rotationStep = Math.PI / 180 * 30; // 30 degrees in radians
+
+      // Rotate the plane on mouse wheel scroll
+      document.addEventListener('wheel', function (event) {
+        const rotationSpeed = 0.01; // Adjust this value to control the rotation speed
+
+        // Update the rotation amount based on scroll direction
+        if (event.deltaY < 0) {
+          rotationAmount += rotationSpeed;
+        } else {
+          rotationAmount -= rotationSpeed;
+        }
+
+        // Apply smooth rotation transition
+        if (Math.abs(rotationAmount) >= rotationStep) {
+          currentRotationAxis = targetRotationAxis;
+          rotationAmount = 0;
+
+          // Switch rotation axis
+          if (targetRotationAxis === 'x') {
+            targetRotationAxis = 'y';
+          } else {
+            targetRotationAxis = 'x';
+          }
+        }
+
+        // Apply rotation
+        plane.rotation[currentRotationAxis] = rotationAmount;
+      });
+
+      // Update the rotation of the plane in the animation loop
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+
+      animate();
+    });
+  </script>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Image Display on Canvas with 2D Plane Rotation on 3D Axis in Three.js</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    // Create a scene
+    const scene = new THREE.Scene();
+
+    // Create a camera
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    // Create a renderer
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas') });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Load the image texture
+    const loader = new THREE.TextureLoader();
+    loader.load('https://fastly.picsum.photos/id/1047/200/300.jpg?hmac=qKpI7C3-gy7En06KAzy2pm7dQAJncqoXDDZxLomHAGY', function (texture) {
+      // Create a plane geometry
+      const geometry = new THREE.PlaneGeometry(4, 5);
+
+      // Create a material with the image texture
+      const material = new THREE.MeshPhongMaterial({ map: texture });
+
+      // Create a mesh using the geometry and material
+      const plane = new THREE.Mesh(geometry, material);
+      scene.add(plane);
+
+      // Create lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(1, 1, 1);
+      scene.add(directionalLight);
+
+      // Variables for rotation
+      let rotationAngle = 0;
+      const rotationStep = Math.PI / 180 * 20; // 30 degrees in radians
+
+      // Rotate the plane on mouse wheel scroll
+      document.addEventListener('wheel', function (event) {
+        const rotationSpeed = 0.01; // Adjust this value to control the rotation speed
+
+        // Update the rotation angle based on scroll direction
+        if (event.deltaY < 0) {
+          rotationAngle += rotationSpeed;
+        } else {
+          rotationAngle -= rotationSpeed;
+        }
+
+        // Apply rotation
+        plane.rotation.x = Math.sin(rotationAngle) * rotationStep;
+        plane.rotation.y = Math.cos(rotationAngle) * rotationStep;
+      });
+
+      // Update the rotation of the plane in the animation loop
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+
+      animate();
+    });
+  </script>
+</body>
+</html> -->
+<!-- 
+
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Image Display on Canvas with Light Source Direction Control and Rotation in Three.js</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    // Create a scene
+    const scene = new THREE.Scene();
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    // Create a camera
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    // Create a renderer
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas') });
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+    // Load the image texture
+    const loader = new THREE.TextureLoader();
+    loader.load('https://fastly.picsum.photos/id/1047/200/300.jpg?hmac=qKpI7C3-gy7En06KAzy2pm7dQAJncqoXDDZxLomHAGY', function (texture) {
+      // Create a plane geometry
+      const geometry = new THREE.PlaneGeometry(4, 5);
+
+      // Create a material with the image texture
+      const material = new THREE.MeshPhongMaterial({ map: texture });
+
+      // Create a mesh using the geometry and material
+      const plane = new THREE.Mesh(geometry, material);
+      scene.add(plane);
+
+      // Create lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(1, 1, 1);
+      scene.add(directionalLight);
+
+      // Variables for rotation
+      let rotationAngle = 0;
+      const rotationStep = Math.PI / 180 * 20; // 20 degrees in radians
+
+      // Rotate the plane on mouse wheel scroll
+      document.addEventListener('wheel', function (event) {
+        const rotationSpeed = 0.01; // Adjust this value to control the rotation speed
+
+        // Update the rotation angle based on scroll direction
+        if (event.deltaY < 0) {
+          rotationAngle += rotationSpeed;
+        } else {
+          rotationAngle -= rotationSpeed;
+        }
+
+        // Apply rotation
+        plane.rotation.x = Math.sin(rotationAngle) * rotationStep;
+        plane.rotation.y = Math.cos(rotationAngle) * rotationStep;
+      });
+
+      // Function to update the light source direction based on click position
+      // function updateLightDirection(event) {
+      //   // Convert mouse click position to normalized device coordinates (NDC)
+      //   const mouse = new THREE.Vector2();
+      //   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      //   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      //   // Update the light source direction based on mouse click position
+      //   const raycaster = new THREE.Raycaster();
+      //   raycaster.setFromCamera(mouse, camera);
+      //   const intersects = raycaster.intersectObjects(scene.children);
+      //   if (intersects.length > 0) {
+      //     const point = intersects[0].point;
+      //     directionalLight.target.position.copy(point);
+      //     directionalLight.position.copy(point);
+      //   }
+      // }
+
+      // Function to update the light source direction based on click position
+function updateLightDirection(event) {
+  // Convert mouse click position to normalized device coordinates (NDC)
+  const mouse = new THREE.Vector2();
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  // Update the light source direction based on mouse click position
+  const raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(scene.children);
+  if (intersects.length > 0) {
+    const point = intersects[0].point;
+
+    // Get the vector from the light position to the clicked point
+    const lightToClickVector = point.clone().sub(directionalLight.position);
+
+    // Update the light direction to the opposite side of the clicked point
+    directionalLight.target.position.copy(point);
+    directionalLight.position.copy(directionalLight.position.clone().add(lightToClickVector.multiplyScalar(-1)));
+  }
+}
+
+
+      // Register click event listener on the canvas
+      document.getElementById('canvas').addEventListener('click', updateLightDirection);
+
+      // Update the rotation of the plane in the animation loop
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+
+      animate();
+    });
+  </script>
+</body>
+</html> -->
+<!-- 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Image Display on Canvas with Light Source Direction Control and Rotation in Three.js</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    // Create a scene
+    const scene = new THREE.Scene();
+
+    // Create a camera
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    // Create a renderer
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas') });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Load the image texture
+    const loader = new THREE.TextureLoader();
+    loader.load('https://fastly.picsum.photos/id/1047/200/300.jpg?hmac=qKpI7C3-gy7En06KAzy2pm7dQAJncqoXDDZxLomHAGY', function (texture) {
+      // Create a plane geometry
+      const geometry = new THREE.PlaneGeometry(4, 5);
+
+      // Create a material with the image texture
+      const material = new THREE.MeshPhongMaterial({ map: texture });
+
+      // Create a mesh using the geometry and material
+      const plane = new THREE.Mesh(geometry, material);
+      scene.add(plane);
+
+      // Create lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(1, 1, 1);
+      scene.add(directionalLight);
+
+      // Variables for rotation
+      let rotationAngle = 0;
+      const rotationStep = Math.PI / 180 * 20; // 20 degrees in radians
+
+      // Rotate the plane on mouse wheel scroll
+      document.addEventListener('wheel', function (event) {
+        const rotationSpeed = 0.01; // Adjust this value to control the rotation speed
+
+        // Update the rotation angle based on scroll direction
+        if (event.deltaY < 0) {
+          rotationAngle += rotationSpeed;
+        } else {
+          rotationAngle -= rotationSpeed;
+        }
+
+        // Apply rotation
+        plane.rotation.x = Math.sin(rotationAngle) * rotationStep;
+        plane.rotation.y = Math.cos(rotationAngle) * rotationStep;
+      });
+
+      // Function to update the light source direction based on click position
+      function updateLightDirection(event) {
+        // Convert mouse click position to normalized device coordinates (NDC)
+        const mouse = new THREE.Vector2();
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        // Update the light source direction based on mouse click position
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(scene.children);
+        if (intersects.length > 0) {
+          const point = intersects[0].point;
+
+          // Get the vector from the light position to the clicked point
+          const lightToClickVector = point.clone().sub(directionalLight.position);
+
+          // Update the light direction to the opposite side of the clicked point
+          directionalLight.target.position.copy(point);
+          directionalLight.position.copy(directionalLight.position.clone().add(lightToClickVector.multiplyScalar(-1)));
+        }
+      }
+
+      // Download the canvas image on double click
+      document.addEventListener('dblclick', function () {
+        const link = document.createElement('a');
+        link.href = renderer.domElement.toDataURL('image/png');
+        link.download = 'canvas_image.png';
+        link.click();
+      });
+
+      // Render the scene
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+
+      animate();
+    });
+  </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Image Display on Canvas with Light Source Direction Control and Rotation in Three.js</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    // Create a scene
+    const scene = new THREE.Scene();
+
+    // Create a camera
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    // Create a renderer
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas') });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Load the image texture
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load('https://fastly.picsum.photos/id/892/500/500.jpg?hmac=6FsKALDKeRMJdlMnlP7CmxgYm8NFl0bqsDLFQTGvTBc', function () {
+      // Create a plane geometry
+      const geometry = new THREE.PlaneGeometry(4, 5);
+
+      // Create a material with the image texture
+      const material = new THREE.MeshPhongMaterial({ map: texture });
+
+      // Create a mesh using the geometry and material
+      const plane = new THREE.Mesh(geometry, material);
+      scene.add(plane);
+
+      // Create lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(1, 1, 1);
+      scene.add(directionalLight);
+
+      // Variables for rotation
+      let rotationAngle = 0;
+      const rotationStep = Math.PI / 180 * 20; // 20 degrees in radians
+
+      // Rotate the plane on mouse wheel scroll
+      document.addEventListener('wheel', function (event) {
+        const rotationSpeed = 0.03; // Adjust this value to control the rotation speed
+
+        // Update the rotation angle based on scroll direction
+        if (event.deltaY < 0) {
+          rotationAngle += rotationSpeed;
+        } else {
+          rotationAngle -= rotationSpeed;
+        }
+
+        // Apply rotation
+        plane.rotation.x = Math.sin(rotationAngle) * rotationStep;
+        plane.rotation.y = Math.cos(rotationAngle) * rotationStep;
+      });
+
+      // Function to update the light source direction based on click position
+      function updateLightDirection(event) {
+        // Convert mouse click position to normalized device coordinates (NDC)
+        const mouse = new THREE.Vector2();
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        // Update the light source direction based on mouse click position
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(scene.children);
+        if (intersects.length > 0) {
+          const point = intersects[0].point;
+
+          // Get the vector from the light position to the clicked point
+          const lightToClickVector = point.clone().sub(directionalLight.position);
+
+          // Update the light direction to the opposite side of the clicked point
+          directionalLight.target.position.copy(point);
+          directionalLight.position.copy(directionalLight.position.clone().add(lightToClickVector.multiplyScalar(-1)));
+        }
+      }
+
+
+      // Download the canvas image on double click
+      document.addEventListener('dblclick', function () {
+        // Wait for the rendering process to complete
+        renderer.render(scene, camera);
+
+        // Wait for the next frame to ensure the rendering is finished
+        requestAnimationFrame(function () {
+          // Create a temporary canvas
+          const tempCanvas = document.createElement('canvas');
+          tempCanvas.width = renderer.domElement.width;
+          tempCanvas.height = renderer.domElement.height;
+
+          // Copy the contents of the renderer's canvas to the temporary canvas
+          const tempContext = tempCanvas.getContext('2d');
+          tempContext.drawImage(renderer.domElement, 0, 0);
+
+          // Create a link element for download
+          const link = document.createElement('a');
+          link.href = tempCanvas.toDataURL('image/png');
+          link.download = 'canvas_image.png';
+          link.click();
+        });
+      });
+
+      // Render the scene
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+
+      animate();
+    });
+  </script>
+</body>
 </html>
